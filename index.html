@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وجنة - اكتشف وجبتك اليوم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0d0b08;
+    --surface: #161310;
+    --card: #1e1a15;
+    --gold: #f5a623;
+    --amber: #e8890c;
+    --cream: #f7e8d0;
+    --red: #c0392b;
+    --green: #27ae60;
+    --text: #f0e6d3;
+    --muted: #8a7a68;
+    --border: rgba(245,166,35,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ───── NOISE TEXTURE ───── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: .4;
+  }
+
+  /* ───── NAV ───── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 16px 40px;
+    background: linear-gradient(to bottom, rgba(13,11,8,.95), transparent);
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(4px);
+  }
+  .logo {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    color: var(--gold);
+    letter-spacing: -1px;
+    text-shadow: 0 0 40px rgba(245,166,35,.4);
+  }
+  .logo span { color: var(--cream); }
+  .nav-tag {
+    font-size: .75rem; color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 4px 12px; border-radius: 20px;
+  }
+
+  /* ───── HERO ───── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 20px 60px;
+    position: relative;
+  }
+
+  .hero-glow {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(245,166,35,.12) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-emoji {
+    font-size: 5rem;
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 30px rgba(245,166,35,.5));
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  h1 .highlight {
+    color: var(--gold);
+    position: relative;
+    display: inline-block;
+  }
+  h1 .highlight::after {
+    content: '';
+    position: absolute; bottom: -4px; right: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 2px;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem; color: var(--muted);
+    max-width: 480px; margin: 16px auto 48px;
+    line-height: 1.8;
+  }
+
+  .cta-btn {
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: #1a1200;
+    border: none; border-radius: 50px;
+    padding: 18px 52px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 40px rgba(245,166,35,.35), inset 0 1px 0 rgba(255,255,255,.2);
+    transition: all .3s;
+    position: relative; overflow: hidden;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+    transition: left .5s;
+  }
+  .cta-btn:hover::before { left: 100%; }
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 50px rgba(245,166,35,.45);
+  }
+  .cta-btn:active { transform: translateY(0); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 56px;
+    opacity: .6; font-size: .85rem; color: var(--muted);
+  }
+  .hero-stats span { display: flex; align-items: center; gap: 6px; }
+
+  /* ───── SCROLL ARROW ───── */
+  .scroll-hint {
+    position: absolute; bottom: 32px;
+    animation: bounce 2s infinite;
+    color: var(--muted); font-size: 1.5rem;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); opacity:.5; }
+    50% { transform: translateY(6px); opacity:1; }
+  }
+
+  /* ───── APP SECTION ───── */
+  #app {
+    max-width: 860px; margin: 0 auto;
+    padding: 80px 20px 120px;
+  }
+
+  .section-label {
+    text-align: center;
+    font-size: .75rem; letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    text-align: center;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    color: var(--cream);
+    margin-bottom: 48px;
+  }
+
+  /* ───── STEP CARD ───── */
+  .step-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all .4s;
+    display: none;
+  }
+  .step-card.active { display: block; animation: slideIn .4s ease; }
+  @keyframes slideIn {
+    from { opacity:0; transform: translateY(20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .step-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0; left: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .step-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+  }
+  .step-num {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: #1a1200; font-weight: 900; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 1.2rem; font-weight: 700; color: var(--cream); }
+  .step-sub { font-size: .85rem; color: var(--muted); margin-top: 2px; }
+
+  /* ───── OPTIONS GRID ───── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .opt-btn {
+    background: rgba(255,255,255,.03);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 12px;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Cairo', sans-serif;
+    color: var(--text);
+    font-size: .9rem;
+    transition: all .25s;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+  }
+  .opt-btn .opt-icon { font-size: 1.8rem; }
+  .opt-btn:hover {
+    border-color: var(--gold);
+    background: rgba(245,166,35,.07);
+    transform: translateY(-2px);
+  }
+  .opt-btn.selected {
+    border-color: var(--gold);
+    background: rgba(245,166,35,.14);
+    color: var(--gold);
+    box-shadow: 0 0 20px rgba(245,166,35,.15);
+  }
+  .opt-btn.multi-selected {
+    border-color: #27ae60;
+    background: rgba(39,174,96,.12);
+    color: #4fd47a;
+  }
+
+  /* ───── SLIDER ───── */
+  .slider-wrap { padding: 8px 0; }
+  .custom-range {
+    -webkit-appearance: none;
+    width: 100%; height: 6px;
+    background: rgba(255,255,255,.08);
+    border-radius: 3px; outline: none;
+    cursor: pointer;
+  }
+  .custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    box-shadow: 0 0 14px rgba(245,166,35,.5);
+    cursor: pointer;
+  }
+  .slider-labels {
+    display: flex; justify-content: space-between;
+    font-size: .75rem; color: var(--muted); margin-top: 10px;
+  }
+  .hunger-display {
+    text-align: center;
+    font-size: 3rem; margin: 12px 0;
+    transition: all .2s;
+  }
+
+  /* ───── MOOD TAGS ───── */
+  .tags-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag-btn {
+    background: rgba(255,255,255,.04);
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: .9rem; color: var(--muted);
+    transition: all .25s;
+  }
+  .tag-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .tag-btn.selected {
+    border-color: var(--gold);
+    background: rgba(245,166,35,.12);
+    color: var(--gold);
+  }
+
+  /* ───── PROGRESS BAR ───── */
+  .progress-wrap {
+    background: rgba(255,255,255,.06);
+    border-radius: 4px; height: 4px; margin-bottom: 36px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--amber));
+    border-radius: 4px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+    position: relative;
+  }
+  .progress-bar::after {
+    content: '';
+    position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold);
+  }
+
+  /* ───── NAVIGATION BUTTONS ───── */
+  .nav-btns {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-top: 28px;
+  }
+  .back-btn {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 12px 28px;
+    color: var(--muted); font-family: 'Cairo', sans-serif;
+    font-size: .95rem; cursor: pointer; transition: all .25s;
+  }
+  .back-btn:hover { border-color: var(--muted); color: var(--text); }
+  .next-btn {
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    border: none; border-radius: 12px; padding: 13px 36px;
+    color: #1a1200; font-family: 'Cairo', sans-serif;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 4px 20px rgba(245,166,35,.3);
+  }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,166,35,.4); }
+  .next-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  /* ───── LOADING ───── */
+  #loading-screen {
+    display: none;
+    text-align: center; padding: 60px 20px;
+  }
+  .loading-bowl {
+    font-size: 4rem;
+    animation: spin 1.5s linear infinite;
+    display: block; margin-bottom: 24px;
+  }
+  @keyframes spin {
+    0%   { transform: rotate(0deg) scale(1); }
+    25%  { transform: rotate(10deg) scale(1.05); }
+    75%  { transform: rotate(-10deg) scale(1.05); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+  .loading-text {
+    font-size: 1.2rem; color: var(--cream); font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .loading-sub { color: var(--muted); font-size: .9rem; }
+  .loading-dots span {
+    display: inline-block;
+    animation: blink 1.4s infinite;
+    color: var(--gold);
+  }
+  .loading-dots span:nth-child(2) { animation-delay: .2s; }
+  .loading-dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%,80%,100% { opacity:0; } 40% { opacity:1; } }
+
+  /* ───── RESULT CARD ───── */
+  #result-section {
+    display: none; animation: slideIn .5s ease;
+  }
+
+  .result-hero-card {
+    background: var(--card);
+    border: 1px solid rgba(245,166,35,.3);
+    border-radius: 28px;
+    padding: 44px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .result-hero-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--gold), var(--amber));
+  }
+  .result-glow {
+    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(245,166,35,.1), transparent 70%);
+    pointer-events: none;
+  }
+
+  .result-emoji { font-size: 5rem; display: block; margin-bottom: 20px; }
+  .result-name {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2.6rem; font-weight: 900;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .result-desc {
+    color: var(--muted); font-size: 1rem;
+    max-width: 400px; margin: 0 auto 24px;
+    line-height: 1.8;
+  }
+
+  .result-tags-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    margin-bottom: 28px;
+  }
+  .result-tag {
+    background: rgba(245,166,35,.1);
+    border: 1px solid rgba(245,166,35,.25);
+    color: var(--gold); border-radius: 20px;
+    padding: 5px 14px; font-size: .8rem;
+  }
+
+  .match-score {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(39,174,96,.12);
+    border: 1px solid rgba(39,174,96,.25);
+    color: #4fd47a; border-radius: 20px;
+    padding: 8px 20px; font-size: .9rem; font-weight: 600;
+  }
+
+  /* ───── ALT SUGGESTIONS ───── */
+  .alts-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+    margin-bottom: 20px;
+  }
+  .alt-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px; padding: 20px 14px;
+    text-align: center;
+    cursor: pointer; transition: all .3s;
+  }
+  .alt-card:hover {
+    border-color: var(--gold);
+    background: rgba(245,166,35,.06);
+    transform: translateY(-3px);
+  }
+  .alt-card .ae { font-size: 2.2rem; margin-bottom: 8px; }
+  .alt-card .an { font-size: .9rem; color: var(--text); font-weight: 600; }
+  .alt-card .as { font-size: .75rem; color: var(--muted); margin-top: 3px; }
+
+  /* ───── ACTION BUTTONS ───── */
+  .action-row {
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .action-btn {
+    flex: 1; min-width: 120px;
+    background: rgba(255,255,255,.04);
+    border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 14px;
+    color: var(--text); font-family: 'Cairo', sans-serif;
+    font-size: .9rem; cursor: pointer; transition: all .25s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .action-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .action-btn.primary {
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    border-color: transparent; color: #1a1200; font-weight: 700;
+  }
+  .action-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(245,166,35,.3); }
+
+  /* ───── FEATURES SECTION ───── */
+  #features {
+    padding: 80px 20px;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 20px; margin-top: 48px;
+  }
+  .feat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px;
+    transition: all .3s;
+  }
+  .feat-card:hover { border-color: rgba(245,166,35,.3); transform: translateY(-4px); }
+  .feat-icon { font-size: 2rem; margin-bottom: 14px; }
+  .feat-title { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 6px; }
+  .feat-desc { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ───── HUNGERSTATION MODAL ───── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .35s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal-box {
+    background: var(--card);
+    border: 1px solid rgba(255,100,0,.3);
+    border-radius: 28px;
+    padding: 40px 32px;
+    max-width: 480px; width: 100%;
+    position: relative;
+    transform: translateY(30px);
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    text-align: center;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0); }
+
+  .modal-box::before {
+    content: '';
+    position: absolute; top: 0; right: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, #ff6b00, #ff8c00, #ff6b00);
+    border-radius: 28px 28px 0 0;
+  }
+
+  .hs-logo-wrap {
+    width: 70px; height: 70px; border-radius: 18px;
+    background: linear-gradient(135deg, #ff6b00, #ff4500);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    box-shadow: 0 8px 30px rgba(255,107,0,.4);
+  }
+
+  .modal-title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.6rem; font-weight: 900;
+    color: var(--cream); margin-bottom: 8px;
+  }
+  .modal-sub { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 28px; }
+
+  .modal-meal-preview {
+    background: rgba(255,107,0,.07);
+    border: 1px solid rgba(255,107,0,.2);
+    border-radius: 16px; padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px; text-align: right;
+  }
+  .modal-meal-emoji { font-size: 2.5rem; flex-shrink: 0; }
+  .modal-meal-name { font-weight: 700; color: var(--cream); font-size: 1.05rem; }
+  .modal-meal-hint { font-size: .8rem; color: var(--muted); margin-top: 3px; }
+
+  .hs-btn {
+    background: linear-gradient(135deg, #ff6b00, #ff4500);
+    border: none; border-radius: 14px; width: 100%;
+    padding: 16px; color: #fff;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 28px rgba(255,107,0,.4);
+    transition: all .3s; margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    text-decoration: none;
+  }
+  .hs-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(255,107,0,.5); }
+
+  .modal-close-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px; width: 100%; padding: 12px;
+    color: var(--muted); font-family: 'Cairo', sans-serif;
+    font-size: .9rem; cursor: pointer; transition: all .25s;
+  }
+  .modal-close-btn:hover { border-color: var(--muted); color: var(--text); }
+
+  .hs-disclaimer {
+    font-size: .72rem; color: var(--muted);
+    margin-top: 14px; line-height: 1.6;
+    opacity: .7;
+  }
+
+  /* ───── SCIENCE SECTION ───── */
+  #science {
+    padding: 80px 20px;
+    max-width: 1000px; margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+
+  .science-intro {
+    text-align: center; max-width: 600px; margin: 0 auto 60px;
+    color: var(--muted); font-size: 1rem; line-height: 1.8;
+  }
+
+  .science-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .science-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px; padding: 32px;
+    position: relative; overflow: hidden;
+    transition: all .3s;
+  }
+  .science-card:hover { border-color: rgba(245,166,35,.3); transform: translateY(-3px); }
+
+  .science-card::after {
+    content: '';
+    position: absolute; top: -30px; left: -30px;
+    width: 100px; height: 100px;
+    background: radial-gradient(circle, rgba(245,166,35,.06), transparent);
+    pointer-events: none;
+  }
+
+  .sci-num {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 3rem; font-weight: 900;
+    color: rgba(245,166,35,.15); line-height: 1;
+    margin-bottom: 12px;
+  }
+  .sci-title { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; }
+  .sci-body { font-size: .85rem; color: var(--muted); line-height: 1.8; }
+  .sci-source {
+    font-size: .72rem; color: rgba(245,166,35,.5);
+    margin-top: 12px; display: flex; align-items: center; gap: 4px;
+  }
+
+  .algorithm-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px; padding: 36px;
+    margin-bottom: 24px;
+  }
+
+  .algo-title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.4rem; font-weight: 900;
+    color: var(--cream); margin-bottom: 8px;
+  }
+  .algo-sub { color: var(--muted); font-size: .9rem; margin-bottom: 28px; }
+
+  .algo-steps {
+    display: flex; flex-direction: column; gap: 0;
+    position: relative;
+  }
+  .algo-steps::before {
+    content: '';
+    position: absolute; top: 22px; right: 21px; bottom: 22px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .algo-step {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding-bottom: 28px; position: relative; z-index: 1;
+  }
+  .algo-step:last-child { padding-bottom: 0; }
+  .algo-dot {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: #1a1200; font-weight: 900; font-size: .9rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 20px rgba(245,166,35,.3);
+  }
+  .algo-step-content { padding-top: 10px; }
+  .algo-step-title { font-weight: 700; color: var(--cream); font-size: .95rem; margin-bottom: 4px; }
+  .algo-step-desc { font-size: .82rem; color: var(--muted); line-height: 1.7; }
+
+  .stats-bar-row {
+    display: flex; flex-direction: column; gap: 14px;
+    margin-top: 28px;
+  }
+  .stat-bar-item { display: flex; flex-direction: column; gap: 6px; }
+  .stat-bar-label {
+    display: flex; justify-content: space-between;
+    font-size: .82rem; color: var(--muted);
+  }
+  .stat-bar-track {
+    background: rgba(255,255,255,.05);
+    border-radius: 4px; height: 6px; overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--amber));
+    transition: width 1.5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ───── RESPONSIVE ───── */
+  @media (max-width: 600px) {
+    nav { padding: 14px 20px; }
+    .alts-grid { grid-template-columns: repeat(2,1fr); }
+    .hero-stats { flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .options-grid { grid-template-columns: repeat(2,1fr); }
+    .science-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+</head>
+<body>
+
+<nav>
+  <div class="logo">وجنة<span>.</span></div>
+  <div class="nav-tag">مساعد اختيار الأكل 🍽️</div>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-emoji">🤔</div>
+  <h1>مو مشتهي<br><span class="highlight">شي معين؟</span></h1>
+  <p class="hero-sub">وجنة يساعدك تكتشف وجبتك المثالية في ثواني — بناءً على مزاجك وجوعك وما تحبه.</p>
+  <button class="cta-btn" onclick="startApp()">ابدأ الاكتشاف ✨</button>
+  <div class="hero-stats">
+    <span>🍴 +200 وجبة</span>
+    <span>⚡ 30 ثانية فقط</span>
+    <span>🎯 دقة عالية</span>
+  </div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<section id="app">
+
+  <div class="progress-wrap" id="progress-wrap" style="display:none;">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-num">١</div>
+      <div>
+        <div class="step-title">كم مستوى جوعك؟</div>
+        <div class="step-sub">حدد مستوى جوعك الحالي</div>
+      </div>
+    </div>
+    <div class="slider-wrap">
+      <div class="hunger-display" id="hunger-emoji">😐</div>
+      <input type="range" class="custom-range" id="hunger-slider" min="1" max="5" value="3" oninput="updateHunger(this.value)">
+      <div class="slider-labels">
+        <span>مش جوعان 😌</span>
+        <span>جعان جداً 🤤</span>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <div></div>
+      <button class="next-btn" onclick="nextStep(2)">التالي →</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-num">٢</div>
+      <div>
+        <div class="step-title">كيف مزاجك هالحين؟</div>
+        <div class="step-sub">اختر اللي يعبر عنك</div>
+      </div>
+    </div>
+    <div class="options-grid">
+      <button class="opt-btn" onclick="selectOne(this,'mood','happy')" data-val="happy">
+        <span class="opt-icon">😄</span>مبسوط
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'mood','tired')" data-val="tired">
+        <span class="opt-icon">😴</span>تعبان
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'mood','stressed')" data-val="stressed">
+        <span class="opt-icon">😤</span>متضايق
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'mood','bored')" data-val="bored">
+        <span class="opt-icon">😑</span>بايخ
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'mood','social')" data-val="social">
+        <span class="opt-icon">🥳</span>تجمع
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'mood','lazy')" data-val="lazy">
+        <span class="opt-icon">🛋️</span>كسلان
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="back-btn" onclick="nextStep(1)">← رجوع</button>
+      <button class="next-btn" id="next-2" onclick="nextStep(3)" disabled>التالي →</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-num">٣</div>
+      <div>
+        <div class="step-title">أي مطبخ تحب؟</div>
+        <div class="step-sub">ممكن تختار أكثر من واحد</div>
+      </div>
+    </div>
+    <div class="options-grid">
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','saudi')" data-val="saudi">
+        <span class="opt-icon">🫕</span>سعودي
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','burger')" data-val="burger">
+        <span class="opt-icon">🍔</span>برغر
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','pizza')" data-val="pizza">
+        <span class="opt-icon">🍕</span>بيتزا
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','asian')" data-val="asian">
+        <span class="opt-icon">🍜</span>آسيوي
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','shawarma')" data-val="shawarma">
+        <span class="opt-icon">🌯</span>شاورما
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','seafood')" data-val="seafood">
+        <span class="opt-icon">🦐</span>مأكولات بحرية
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','dessert')" data-val="dessert">
+        <span class="opt-icon">🍰</span>حلويات
+      </button>
+      <button class="opt-btn" onclick="toggleMulti(this,'cuisine','healthy')" data-val="healthy">
+        <span class="opt-icon">🥗</span>صحي
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="back-btn" onclick="nextStep(2)">← رجوع</button>
+      <button class="next-btn" id="next-3" onclick="nextStep(4)" disabled>التالي →</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-num">٤</div>
+      <div>
+        <div class="step-title">وش تتوقع حنقتك؟</div>
+        <div class="step-sub">اختر الطعم اللي تشتهيه</div>
+      </div>
+    </div>
+    <div class="tags-wrap" id="flavor-tags">
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','spicy')">🌶️ حار</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','savory')">🧂 مالح</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','sweet')">🍯 حلو</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','sour')">🍋 حامض</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','creamy')">🧈 كريمي</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','crispy')">🥨 مقرمش</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','light')">🫧 خفيف</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','heavy')">🥩 ثقيل</button>
+    </div>
+    <div class="nav-btns">
+      <button class="back-btn" onclick="nextStep(3)">← رجوع</button>
+      <button class="next-btn" id="next-4" onclick="nextStep(5)" disabled>التالي →</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-5">
+    <div class="step-header">
+      <div class="step-num">٥</div>
+      <div>
+        <div class="step-title">كم ميزانيتك؟</div>
+        <div class="step-sub">بالريال السعودي</div>
+      </div>
+    </div>
+    <div class="options-grid">
+      <button class="opt-btn" onclick="selectOne(this,'budget','low')" data-val="low">
+        <span class="opt-icon">💸</span>أقل من 30
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'budget','mid')" data-val="mid">
+        <span class="opt-icon">💰</span>30 - 80
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'budget','high')" data-val="high">
+        <span class="opt-icon">💎</span>80 - 200
+      </button>
+      <button class="opt-btn" onclick="selectOne(this,'budget','vip')" data-val="vip">
+        <span class="opt-icon">🏆</span>مهم يطيح
+      </button>
+    </div>
+    <div class="nav-btns">
+      <button class="back-btn" onclick="nextStep(4)">← رجوع</button>
+      <button class="next-btn" id="next-5" onclick="showLoading()" disabled>اكتشف وجبتك 🎯</button>
+    </div>
+  </div>
+
+  <div id="loading-screen">
+    <span class="loading-bowl">🍽️</span>
+    <div class="loading-text">وجنة يفكر لك<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    <div class="loading-sub">بيحلل مزاجك وذوقك ويجيبلك أحسن اقتراح</div>
+  </div>
+
+  <div id="result-section">
+    <div class="section-label">✨ اقتراح وجنة</div>
+    <div class="result-hero-card">
+      <div class="result-glow"></div>
+      <span class="result-emoji" id="res-emoji">🍔</span>
+      <div class="result-name" id="res-name">برغر كلاسيك</div>
+      <div class="result-desc" id="res-desc">بناءً على مزاجك وذوقك، هذي الوجبة هي الأنسب لك هالحين!</div>
+      <div class="result-tags-row" id="res-tags"></div>
+      <div class="match-score" id="res-score">✅ تطابق 94%</div>
+    </div>
+
+    <div class="section-label" style="text-align:right; margin-bottom: 14px; margin-top: 28px;">خيارات بديلة</div>
+    <div class="alts-grid" id="alts-grid"></div>
+
+    <div class="action-row" style="margin-top: 20px;">
+      <button class="action-btn" onclick="shareResult()">📤 شارك النتيجة</button>
+      <button class="action-btn" onclick="restartApp()">🔄 جرب مرة ثانية</button>
+      <button class="action-btn primary" onclick="orderNow()">🛵 اطلب الحين</button>
+    </div>
+  </div>
+
+</section>
+
+<section id="features">
+  <div class="section-label">لماذا وجنة؟</div>
+  <div class="section-title">كل شي صُمّم عشانك</div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🧠</div>
+      <div class="feat-title">ذكي ومخصص</div>
+      <div class="feat-desc">يحلل مزاجك ومستوى جوعك وميزانيتك عشان يطلع أدق اقتراح</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">سريع جداً</div>
+      <div class="feat-desc">في أقل من 30 ثانية تعرف وش تاكل اليوم بدون تفكير</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌍</div>
+      <div class="feat-title">مطابخ متنوعة</div>
+      <div class="feat-desc">من الأكل السعودي الأصيل لأشهى الوجبات العالمية</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-title">بدائل ذكية</div>
+      <div class="feat-desc">مع كل اقتراح تجيك خيارات بديلة لو مو مقتنع</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💰</div>
+      <div class="feat-title">يناسب ميزانيتك</div>
+      <div class="feat-desc">يراعي ميزانيتك ويقترح ما يناسبك بالضبط</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">❤️</div>
+      <div class="feat-title">مجاني 100%</div>
+      <div class="feat-desc">لا إعلانات ولا اشتراكات — فقط اكتشف وجبتك</div>
+    </div>
+  </div>
+</section>
+
+<section id="science">
+  <div class="science-intro">
+    <div class="section-label" style="margin-bottom: 12px;">ورا الكواليس</div>
+    <h2 style="font-family: 'Tajawal', sans-serif; font-size: 2rem; color: var(--cream); margin-bottom: 16px;">شغلنا مبني على دراسات</h2>
+    ترا الخيارات اللي تطلع لك مو عشوائية، الخوارزمية حقتنا تحلل مستوى جوعك وحالتك المزاجية بناءً على دراسات سلوكية، وتربطها بخياراتك عشان نطلع لك الأكل اللي يضرب في المخ ويفك أزمتك.
+  </div>
+
+  <div class="algorithm-box">
+    <div class="algo-title">كيف نختار وجبتك؟</div>
+    <div class="algo-sub">الرحلة اللي تمر فيها خياراتك:</div>
+    <div class="algo-steps">
+      <div class="algo-step">
+        <div class="algo-dot">١</div>
+        <div class="algo-step-content">
+          <div class="algo-step-title">تحليل الجوع والمزاج</div>
+          <div class="algo-step-desc">نربط حالتك النفسية بمستوى هرمونات الجوع عشان نفهم وش الأكل اللي بيهديك.</div>
+        </div>
+      </div>
+      <div class="algo-step">
+        <div class="algo-dot">٢</div>
+        <div class="algo-step-content">
+          <div class="algo-step-title">فلترة الرغبات</div>
+          <div class="algo-step-desc">نستبعد المطابخ اللي ما تناسب ذوقك أو ميزانيتك.</div>
+        </div>
+      </div>
+      <div class="algo-step">
+        <div class="algo-dot">٣</div>
+        <div class="algo-step-content">
+          <div class="algo-step-title">الترشيح النهائي</div>
+          <div class="algo-step-desc">نطلع لك الوجبة اللي جابت أعلى نسبة تطابق مع وضعك الحالي.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo-f">وجنة.</div>
+  <p>صُنع بـ ❤️ لكل من ما يدري وش ياكل</p>
+</footer>
+
+<div class="modal-overlay" id="hs-modal">
+  <div class="modal-box">
+    <div class="hs-logo-wrap">🛵</div>
+    <div class="modal-title">جاهز تطلب؟</div>
+    <div class="modal-sub">بنحولك لهنقرستيشن عشان تطلب وجبتك وأنت مرتاح.</div>
+
+    <div class="modal-meal-preview">
+      <div class="modal-meal-emoji" id="modal-emoji">🍔</div>
+      <div style="text-align: right;">
+        <div class="modal-meal-name" id="modal-name">برغر كلاسيك</div>
+        <div class="modal-meal-hint">الوجبة اللي اخترناها لك!</div>
+      </div>
+    </div>
+
+    <a href="#" class="hs-btn" id="hs-link" target="_blank">
+      اطلب من هنقرستيشن الحين
+    </a>
+    <button class="modal-close-btn" onclick="closeModal()">قفل النافذة</button>
+    <div class="hs-disclaimer">راح نبحث لك عن الوجبة مباشرة في التطبيق بناءً على اسم الأكلة.</div>
+  </div>
+</div>
+
+<script>
+// ───── STATE ─────
+const state = {
+  hunger: 3,
+  mood: null,
+  cuisine: [],
+  flavor: [],
+  budget: null
+};
+
+const hungerEmojis = { 1:'😌', 2:'🙂', 3:'😐', 4:'😋', 5:'🤤' };
+
+function updateHunger(v) {
+  state.hunger = parseInt(v);
+  document.getElementById('hunger-emoji').textContent = hungerEmojis[v];
+}
+
+function selectOne(btn, key, val) {
+  document.querySelectorAll(`[onclick*="selectOne"][onclick*="${key}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state[key] = val;
+  const nxt = document.getElementById(`next-${currentStep}`);
+  if (nxt) nxt.disabled = false;
+}
+
+function toggleMulti(btn, key, val) {
+  btn.classList.toggle('multi-selected');
+  if (btn.classList.contains('multi-selected')) {
+    state[key].push(val);
+  } else {
+    state[key] = state[key].filter(v => v !== val);
+  }
+  const nxt = document.getElementById(`next-${currentStep}`);
+  if (nxt) nxt.disabled = state[key].length === 0;
+}
+
+function toggleTag(btn, key, val) {
+  btn.classList.toggle('selected');
+  if (btn.classList.contains('selected')) {
+    state[key].push(val);
+  } else {
+    state[key] = state[key].filter(v => v !== val);
+  }
+  const nxt = document.getElementById(`next-${currentStep}`);
+  if (nxt) nxt.disabled = state[key].length === 0;
+}
+
+// ───── STEPS ─────
+let currentStep = 0;
+const totalSteps = 5;
+
+function startApp() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('features').style.display = 'none';
+  document.getElementById('science').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'block';
+  nextStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep(n) {
+  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+  currentStep = n;
+  const card = document.getElementById(`step-${n}`);
+  if (card) {
+    card.classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: document.getElementById('app').offsetTop - 20, behavior: 'smooth' });
+  }
+}
+
+function updateProgress(step) {
+  const pct = ((step - 1) / totalSteps) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+// ───── LOADING ─────
+function showLoading() {
+  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('loading-screen').style.display = 'block';
+  document.getElementById('progress-bar').style.width = '100%';
+  setTimeout(showResult, 2200);
+}
+
+// ───── FOOD DATABASE ─────
+const foodDB = {
+  // [mood][cuisine] → meal
+  happy: {
+    saudi:   { n:'كبسة دجاج ملكية', e:'🍗', d:'أشهى كبسة بتوابل فاخرة وأرز بسمتي ذهبي', tags:['تقليدي','دافئ','عائلي'], score:96 },
+    burger:  { n:'سمبل برغر دبل', e:'🍔', d:'برغر لحم بقري طازج مع صوص خاص وجبن مذاب', tags:['مشبع','مرضي','سريع'], score:93 },
+    pizza:   { n:'بيتزا مارغريتا', e:'🍕', d:'بيتزا إيطالية أصيلة بصوص طماطم وموزاريلا طازجة', tags:['إيطالي','خفيف','شهي'], score:91 },
+    asian:   { n:'باد تاي كريمب', e:'🍜', d:'نودلز تايلاندية بجمبري وصوص تاماريند لذيذ', tags:['آسيوي','حار','خاص'], score:89 },
+    shawarma:{ n:'شاورما لحم مع سالسا', e:'🌯', d:'شاورما لحم طازجة مع صوص السالسا والخضروات', tags:['سريع','شعبي','مشبع'], score:92 },
+    seafood: { n:'سمك هامور مشوي', e:'🐟', d:'هامور طازج على الفحم مع أرز صياد', tags:['بحري','فاخر','صحي'], score:95 },
+    dessert: { n:'كنافة بالقشطة', e:'🧆', d:'كنافة هشة بقشطة ناعمة وقطر عثماني', tags:['حلو','شرقي','مميز'], score:90 },
+    healthy: { n:'بوكي بول تونا', e:'🥗', d:'وعاء صحي بالتونا والأفوكادو والخضروات الطازجة', tags:['صحي','خفيف','منعش'], score:88 }
+  },
+  tired: {
+    saudi:   { n:'مرق دجاج دافئ', e:'🥣', d:'شوربة مرق دجاج ساخنة بالتوابل لترتاح', tags:['دافئ','مريح','سهل'], score:97 },
+    burger:  { n:'تشيز برغر بسيط', e:'🍔', d:'برغر كلاسيك بسيط يسد الجوع بسرعة', tags:['بسيط','سريع','مريح'], score:88 },
+    pizza:   { n:'بيتزا جبن بيبروني', e:'🍕', d:'بيتزا دافئة مريحة مع بيبروني وجبن وفير', tags:['دافئ','مريح','كلاسيك'], score:90 },
+    asian:   { n:'رامن دجاج دافئ', e:'🍜', d:'رامن ياباني بمرق دجاج دافئ ومريح للروح', tags:['دافئ','آسيوي','مريح'], score:94 },
+    shawarma:{ n:'شاورما دجاج ساندويش', e:'🌯', d:'ساندويش شاورما دجاج سهل وسريع', tags:['سريع','بسيط'], score:85 },
+    seafood: { n:'فيليه سمك مقلي', e:'🐠', d:'فيليه سمك خفيف مقلي مع صوص ليمون', tags:['خفيف','سريع','سهل'], score:86 },
+    dessert: { n:'تشيز كيك كريمي', e:'🎂', d:'تشيز كيك ناعم وكريمي يريح التعب', tags:['حلو','كريمي','مريح'], score:91 },
+    healthy: { n:'شوربة عدس', e:'🥣', d:'شوربة عدس دافئة بالليمون والكمون', tags:['دافئ','صحي','مريح'], score:93 }
+  },
+  stressed: {
+    saudi:   { n:'ذيل ووجنات مشوية', e:'🥩', d:'أطيب لحم مشوي يزيل التوتر', tags:['قوي','مشوي','مشبع'], score:92 },
+    burger:  { n:'سمبل داكن برغر', e:'🍔', d:'برغر ضخم مزدوج يطرد الضغط', tags:['ضخم','قوي','مشبع'], score:95 },
+    pizza:   { n:'بيتزا ميت لافر', e:'🍕', d:'بيتزا باللحم الوفير تصرف الضغط', tags:['قوي','وفير','مشبع'], score:93 },
+    asian:   { n:'دامبلينج مقلي', e:'🥟', d:'زلابية مقلية مقرمشة ومريحة', tags:['مقرمش','آسيوي','مميز'], score:89 },
+    shawarma:{ n:'شاورما لحم سبيشيال', e:'🌯', d:'شاورما لحم حارة تصرف الضغط', tags:['حار','قوي'], score:91 },
+    seafood: { n:'روبيان حار مشوي', e:'🦐', d:'روبيان طازج مشوي بتوابل حارة', tags:['بحري','حار','مميز'], score:88 },
+    dessert: { n:'شوكولاتة لافا كيك', e:'🍫', d:'كيك شوكولاتة دافئ بداخله لافا سائلة', tags:['حلو','دافئ','مريح'], score:94 },
+    healthy: { n:'سموثي بول أخضر', e:'🥤', d:'بول سموثي أخضر منعش ومزيل للتوتر', tags:['صحي','منعش','خفيف'], score:87 }
+  },
+  bored: {
+    saudi:   { n:'جريش ومندي مشكل', e:'🫕', d:'جريش أصيل مع مندي مشكل — تجربة جديدة', tags:['جديد','تقليدي','مميز'], score:90 },
+    burger:  { n:'برغر كوريوز', e:'🍔', d:'برغر بمكونات غير متوقعة وطعم جديد', tags:['جديد','مفاجأة','مميز'], score:92 },
+    pizza:   { n:'بيتزا ترفل فاخرة', e:'🍕', d:'بيتزا بكريمة الترفل وتجربة مختلفة كلياً', tags:['فاخر','جديد','مميز'], score:94 },
+    asian:   { n:'بيبيمباب كوري', e:'🍱', d:'طبق كوري ملون بخضروات متنوعة وبيض', tags:['ملون','جديد','آسيوي'], score:91 },
+    shawarma:{ n:'شاورما فيوجن', e:'🌯', d:'شاورما بتوليفة تجمع مطابخ مختلفة', tags:['جديد','فيوجن','مميز'], score:89 },
+    seafood: { n:'أكتوبص مشوي', e:'🐙', d:'أكتوبص مشوي ستايل يوناني — تجربة لا تُنسى', tags:['نادر','فاخر','مميز'], score:93 },
+    dessert: { n:'مافن متفجر مليان', e:'🧁', d:'مافن ضخم محشو بعدة نكهات مفاجئة', tags:['مفاجأة','حلو','مميز'], score:95 },
+    healthy: { n:'بول أكاي استوائي', e:'🫐', d:'أكاي بول ملون بفواكه استوائية نادرة', tags:['ملون','صحي','جديد'], score:88 }
+  },
+  social: {
+    saudi:   { n:'كبسة جماعية فخمة', e:'🍗', d:'كبسة للجماعة بخروف كامل — ولا أروع', tags:['جماعي','فخم','تقليدي'], score:98 },
+    burger:  { n:'سلة برغرات مشتركة', e:'🍔', d:'تشارك مجموعة برغرات متنوعة ومختلفة', tags:['جماعي','متنوع','مرح'], score:93 },
+    pizza:   { n:'بيتزا فاميلي XXL', e:'🍕', d:'بيتزا عملاقة للجماعة بنكهات متعددة', tags:['جماعي','كبير','مرح'], score:95 },
+    asian:   { n:'هوت بوت آسيوي', e:'🍲', d:'قدر مشترك يطبخ الجميع فيه سوياً', tags:['تجربة','جماعي','آسيوي'], score:96 },
+    shawarma:{ n:'شاورما ميكس للجميع', e:'🌯', d:'صاج شاورما كامل للتوزيع بين الجماعة', tags:['جماعي','وفير','سريع'], score:91 },
+    seafood: { n:'مائدة بحرية كاملة', e:'🦞', d:'أسماك وروبيان وجمبري — مائدة احتفالية', tags:['فاخر','جماعي','احتفال'], score:97 },
+    dessert: { n:'فوندو شوكولاتة', e:'🍫', d:'فوندو شوكولاتة تغمس فيه الفواكه سوياً', tags:['مشترك','حلو','مرح'], score:92 },
+    healthy: { n:'بوكي بار مشترك', e:'🥗', d:'محطة بوكي يبني كل واحد وجبته بنفسه', tags:['صحي','إبداعي','جماعي'], score:89 }
+  },
+  lazy: {
+    saudi:   { n:'ورق عنب جاهز', e:'🍃', d:'ورق عنب جاهز من المطعم — بدون مجهود', tags:['سهل','جاهز','بيتي'], score:87 },
+    burger:  { n:'برغر ديليفري سريع', e:'🍔', d:'أسرع برغر ديليفري يوصلك بدون قيام', tags:['سريع','ديليفري','سهل'], score:94 },
+    pizza:   { n:'بيتزا كلاسيك ديليفري', e:'🍕', d:'ببساطة تطلب بيتزا وتنتظر — الحل الأمثل', tags:['ديليفري','سهل','كلاسيك'], score:93 },
+    asian:   { n:'نودلز فورية فاخرة', e:'🍜', d:'نودلز تجهزها في 5 دقائق بلمسة فاخرة', tags:['سريع','سهل','بيتي'], score:85 },
+    shawarma:{ n:'شاورما ديليفري', e:'🌯', d:'تطلب ويجيك — أسهل خيار ممكن', tags:['ديليفري','سريع','سهل'], score:92 },
+    seafood: { n:'سمك مقلي جاهز', e:'🐟', d:'سمك جاهز من مطعم قريب', tags:['سهل','بسيط','سريع'], score:84 },
+    dessert: { n:'آيس كريم من الفريزر', e:'🍦', d:'افتح الفريزر واستمتع — الحل الكسلان الأفضل', tags:['سهل','بارد','بسيط'], score:88 },
+    healthy: { n:'سلطة معلبة جاهزة', e:'🥗', d:'افتح علبة سلطة جاهزة واكل — بدون مجهود', tags:['سهل','صحي','سريع'], score:82 }
+  }
+};
+
+const altFoods = [
+  { n:'مكرونة بولونيز', e:'🍝', s:'إيطالي كلاسيك' },
+  { n:'تاكوز دجاج', e:'🌮', s:'مكسيكي مرح' },
+  { n:'سوشي سبيشيال', e:'🍱', s:'ياباني أنيق' },
+  { n:'ستيك ريب آي', e:'🥩', s:'غربي فاخر' },
+  { n:'فلافل بيتا', e:'🥙', s:'شرقي خفيف' },
+  { n:'وافل بنوتيلا', e:'🧇', s:'حلو ومغري' },
+  { n:'لحم بعجين', e:'🫓', s:'شامي أصيل' },
+  { n:'سمبوسة مقلية', e:'🥟', s:'شهية وسريعة' },
+  { n:'كريب نوتيلا', e:'🥐', s:'فرنسي دافئ' }
+];
+
+function showResult() {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('result-section').style.display = 'block';
+
+  const mood = state.mood || 'happy';
+  const cuisines = state.cuisine.length > 0 ? state.cuisine : ['burger'];
+  const cuisine = cuisines[Math.floor(Math.random() * cuisines.length)];
+
+  const meal = (foodDB[mood] && foodDB[mood][cuisine]) || foodDB.happy.burger;
+
+  document.getElementById('res-emoji').textContent = meal.e;
+  document.getElementById('res-name').textContent = meal.n;
+  document.getElementById('res-desc').textContent = meal.d;
+  document.getElementById('res-score').textContent = `✅ تطابق ${meal.score}%`;
+
+  const tagsEl = document.getElementById('res-tags');
+  tagsEl.innerHTML = meal.tags.map(t => `<span class="result-tag">${t}</span>`).join('');
+
+  // Shuffle alts
+  const shuffled = [...altFoods].sort(() => Math.random() - .5).slice(0,3);
+  document.getElementById('alts-grid').innerHTML = shuffled.map(a => `
+    <div class="alt-card" onclick="selectAlt('${a.n}','${a.e}','${a.s}')">
+      <div class="ae">${a.e}</div>
+      <div class="an">${a.n}</div>
+      <div class="as">${a.s}</div>
+    </div>
+  `).join('');
+
+  window.scrollTo({ top: document.getElementById('app').offsetTop, behavior: 'smooth' });
+}
+
+function selectAlt(n, e, s) {
+  document.getElementById('res-name').textContent = n;
+  document.getElementById('res-emoji').textContent = e;
+  document.getElementById('res-desc').textContent = `اخترت ${n} — خيار ممتاز! 🎉`;
+  document.getElementById('res-score').textContent = `✅ اختيار يدوي ذكي`;
+}
+
+function restartApp() {
+  state.hunger = 3; state.mood = null;
+  state.cuisine = []; state.flavor = []; state.budget = null;
+  document.getElementById('result-section').style.display = 'none';
+  document.getElementById('loading-screen').style.display = 'none';
+  document.querySelectorAll('.opt-btn,.tag-btn').forEach(b => b.classList.remove('selected','multi-selected'));
+  ['next-2','next-3','next-4','next-5'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = true;
+  });
+  document.getElementById('hunger-slider').value = 3;
+  document.getElementById('hunger-emoji').textContent = '😐';
+  nextStep(1);
+}
+
+function orderNow() {
+  const name = document.getElementById('res-name').textContent;
+  const emoji = document.getElementById('res-emoji').textContent;
+
+  // تحديث بيانات النافذة المنبثقة
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-emoji').textContent = emoji;
+
+  // تجهيز رابط البحث الخاص بهنقرستيشن
+  const searchQuery = encodeURIComponent(name);
+  const hsUrl = `https://hungerstation.com/sa-ar/search?q=${searchQuery}`;
+  document.getElementById('hs-link').href = hsUrl;
+
+  // إظهار النافذة
+  document.getElementById('hs-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('hs-modal').classList.remove('open');
+}
+
+function shareResult() {
+  const name = document.getElementById('res-name').textContent;
+  const score = document.getElementById('res-score').textContent;
+  const text = `🍽️ وجنة اختار لي: ${name}\n${score}\n\nاكتشف وجبتك على وجنة! ✨`;
+  if (navigator.share) {
+    navigator.share({ title: 'وجنة', text });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text);
+    alert('✅ تم نسخ النتيجة — شاركها مع أصدقائك!');
+  }
+}
+</script>
+
+</body>
+</html>
