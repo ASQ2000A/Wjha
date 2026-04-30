@@ -32,7 +32,6 @@
     overflow-x: hidden;
   }
 
-  /* ───── NOISE TEXTURE ───── */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -40,7 +39,6 @@
     pointer-events: none; z-index: 0; opacity: .4;
   }
 
-  /* ───── NAV ───── */
   nav {
     position: fixed; top: 0; width: 100%; z-index: 100;
     padding: 16px 40px;
@@ -62,7 +60,6 @@
     padding: 4px 12px; border-radius: 20px;
   }
 
-  /* ───── HERO ───── */
   #hero {
     min-height: 100vh;
     display: flex; flex-direction: column;
@@ -147,7 +144,6 @@
   }
   .hero-stats span { display: flex; align-items: center; gap: 6px; }
 
-  /* ───── SCROLL ARROW ───── */
   .scroll-hint {
     position: absolute; bottom: 32px;
     animation: bounce 2s infinite;
@@ -158,7 +154,6 @@
     50% { transform: translateY(6px); opacity:1; }
   }
 
-  /* ───── APP SECTION ───── */
   #app {
     max-width: 860px; margin: 0 auto;
     padding: 80px 20px 120px;
@@ -180,7 +175,6 @@
     margin-bottom: 48px;
   }
 
-  /* ───── STEP CARD ───── */
   .step-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -216,7 +210,6 @@
   .step-title { font-size: 1.2rem; font-weight: 700; color: var(--cream); }
   .step-sub { font-size: .85rem; color: var(--muted); margin-top: 2px; }
 
-  /* ───── OPTIONS GRID ───── */
   .options-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -254,7 +247,6 @@
     color: #4fd47a;
   }
 
-  /* ───── SLIDER ───── */
   .slider-wrap { padding: 8px 0; }
   .custom-range {
     -webkit-appearance: none;
@@ -280,7 +272,6 @@
     transition: all .2s;
   }
 
-  /* ───── MOOD TAGS ───── */
   .tags-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
   .tag-btn {
     background: rgba(255,255,255,.04);
@@ -299,7 +290,6 @@
     color: var(--gold);
   }
 
-  /* ───── PROGRESS BAR ───── */
   .progress-wrap {
     background: rgba(255,255,255,.06);
     border-radius: 4px; height: 4px; margin-bottom: 36px;
@@ -321,7 +311,6 @@
     box-shadow: 0 0 10px var(--gold);
   }
 
-  /* ───── NAVIGATION BUTTONS ───── */
   .nav-btns {
     display: flex; justify-content: space-between;
     align-items: center; margin-top: 28px;
@@ -345,7 +334,6 @@
   .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,166,35,.4); }
   .next-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
 
-  /* ───── LOADING ───── */
   #loading-screen {
     display: none;
     text-align: center; padding: 60px 20px;
@@ -375,7 +363,6 @@
   .loading-dots span:nth-child(3) { animation-delay: .4s; }
   @keyframes blink { 0%,80%,100% { opacity:0; } 40% { opacity:1; } }
 
-  /* ───── RESULT CARD ───── */
   #result-section {
     display: none; animation: slideIn .5s ease;
   }
@@ -410,8 +397,17 @@
   }
   .result-desc {
     color: var(--muted); font-size: 1rem;
-    max-width: 400px; margin: 0 auto 24px;
+    max-width: 480px; margin: 0 auto 16px;
     line-height: 1.8;
+  }
+  
+  .calorie-badge {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--cream); border-radius: 20px;
+    padding: 6px 16px; font-size: .85rem;
+    margin-bottom: 24px;
   }
 
   .result-tags-row {
@@ -432,8 +428,48 @@
     color: #4fd47a; border-radius: 20px;
     padding: 8px 20px; font-size: .9rem; font-weight: 600;
   }
+  
+  .tip-box {
+    background: rgba(39,174,96,.06);
+    border-right: 4px solid #27ae60;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    text-align: right;
+  }
+  .tip-title {
+    color: #27ae60; font-size: .9rem; font-weight: 700; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tip-text {
+    color: var(--cream); font-size: .9rem; line-height: 1.6;
+  }
 
-  /* ───── ALT SUGGESTIONS ───── */
+  .restaurants-section {
+    margin-top: 32px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+  }
+  .rest-title {
+    font-family: 'Tajawal', sans-serif; font-size: 1.2rem; font-weight: 700;
+    color: var(--cream); margin-bottom: 16px;
+  }
+  .rest-list {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  }
+  .rest-item {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+    padding: 10px 18px;
+    color: var(--text); font-size: .9rem; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .rest-item::before { content: '🏪'; font-size: 1.1rem; }
+
   .alts-grid {
     display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
     margin-bottom: 20px;
@@ -454,7 +490,6 @@
   .alt-card .an { font-size: .9rem; color: var(--text); font-weight: 600; }
   .alt-card .as { font-size: .75rem; color: var(--muted); margin-top: 3px; }
 
-  /* ───── ACTION BUTTONS ───── */
   .action-row {
     display: flex; gap: 12px; flex-wrap: wrap;
   }
@@ -474,7 +509,6 @@
   }
   .action-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(245,166,35,.3); }
 
-  /* ───── FEATURES SECTION ───── */
   #features {
     padding: 80px 20px;
     max-width: 1000px; margin: 0 auto;
@@ -494,7 +528,6 @@
   .feat-title { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 6px; }
   .feat-desc { font-size: .85rem; color: var(--muted); line-height: 1.7; }
 
-  /* ───── HUNGERSTATION MODAL ───── */
   .modal-overlay {
     position: fixed; inset: 0; z-index: 200;
     background: rgba(0,0,0,.85);
@@ -582,121 +615,11 @@
     opacity: .7;
   }
 
-  /* ───── SCIENCE SECTION ───── */
-  #science {
-    padding: 80px 20px;
-    max-width: 1000px; margin: 0 auto;
-    border-top: 1px solid var(--border);
-  }
-
-  .science-intro {
-    text-align: center; max-width: 600px; margin: 0 auto 60px;
-    color: var(--muted); font-size: 1rem; line-height: 1.8;
-  }
-
-  .science-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-    margin-bottom: 48px;
-  }
-
-  .science-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 22px; padding: 32px;
-    position: relative; overflow: hidden;
-    transition: all .3s;
-  }
-  .science-card:hover { border-color: rgba(245,166,35,.3); transform: translateY(-3px); }
-
-  .science-card::after {
-    content: '';
-    position: absolute; top: -30px; left: -30px;
-    width: 100px; height: 100px;
-    background: radial-gradient(circle, rgba(245,166,35,.06), transparent);
-    pointer-events: none;
-  }
-
-  .sci-num {
-    font-family: 'Tajawal', sans-serif;
-    font-size: 3rem; font-weight: 900;
-    color: rgba(245,166,35,.15); line-height: 1;
-    margin-bottom: 12px;
-  }
-  .sci-title { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; }
-  .sci-body { font-size: .85rem; color: var(--muted); line-height: 1.8; }
-  .sci-source {
-    font-size: .72rem; color: rgba(245,166,35,.5);
-    margin-top: 12px; display: flex; align-items: center; gap: 4px;
-  }
-
-  .algorithm-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 22px; padding: 36px;
-    margin-bottom: 24px;
-  }
-
-  .algo-title {
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1.4rem; font-weight: 900;
-    color: var(--cream); margin-bottom: 8px;
-  }
-  .algo-sub { color: var(--muted); font-size: .9rem; margin-bottom: 28px; }
-
-  .algo-steps {
-    display: flex; flex-direction: column; gap: 0;
-    position: relative;
-  }
-  .algo-steps::before {
-    content: '';
-    position: absolute; top: 22px; right: 21px; bottom: 22px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-  }
-
-  .algo-step {
-    display: flex; gap: 20px; align-items: flex-start;
-    padding-bottom: 28px; position: relative; z-index: 1;
-  }
-  .algo-step:last-child { padding-bottom: 0; }
-  .algo-dot {
-    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--gold), var(--amber));
-    color: #1a1200; font-weight: 900; font-size: .9rem;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 20px rgba(245,166,35,.3);
-  }
-  .algo-step-content { padding-top: 10px; }
-  .algo-step-title { font-weight: 700; color: var(--cream); font-size: .95rem; margin-bottom: 4px; }
-  .algo-step-desc { font-size: .82rem; color: var(--muted); line-height: 1.7; }
-
-  .stats-bar-row {
-    display: flex; flex-direction: column; gap: 14px;
-    margin-top: 28px;
-  }
-  .stat-bar-item { display: flex; flex-direction: column; gap: 6px; }
-  .stat-bar-label {
-    display: flex; justify-content: space-between;
-    font-size: .82rem; color: var(--muted);
-  }
-  .stat-bar-track {
-    background: rgba(255,255,255,.05);
-    border-radius: 4px; height: 6px; overflow: hidden;
-  }
-  .stat-bar-fill {
-    height: 100%; border-radius: 4px;
-    background: linear-gradient(90deg, var(--gold), var(--amber));
-    transition: width 1.5s cubic-bezier(.4,0,.2,1);
-    width: 0%;
-  }
-
-  /* ───── RESPONSIVE ───── */
   @media (max-width: 600px) {
     nav { padding: 14px 20px; }
     .alts-grid { grid-template-columns: repeat(2,1fr); }
     .hero-stats { flex-wrap: wrap; justify-content: center; gap: 20px; }
     .options-grid { grid-template-columns: repeat(2,1fr); }
-    .science-grid { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -712,12 +635,12 @@
   <div class="hero-glow"></div>
   <div class="hero-emoji">🤔</div>
   <h1>مو مشتهي<br><span class="highlight">شي معين؟</span></h1>
-  <p class="hero-sub">وجنة يساعدك تكتشف وجبتك المثالية في ثواني — بناءً على مزاجك وجوعك وما تحبه.</p>
+  <p class="hero-sub">وجنة يساعدك تكتشف وجبتك المثالية في ثواني — بناءً على ذوقك وجوعك.</p>
   <button class="cta-btn" onclick="startApp()">ابدأ الاكتشاف ✨</button>
   <div class="hero-stats">
-    <span>🍴 +200 وجبة</span>
+    <span>🍴 مئات الوجبات والمطاعم</span>
     <span>⚡ 30 ثانية فقط</span>
-    <span>🎯 دقة عالية</span>
+    <span>🎯 دقة واهتمام بصحتك</span>
   </div>
   <div class="scroll-hint">↓</div>
 </section>
@@ -766,7 +689,7 @@
         <span class="opt-icon">😴</span>تعبان
       </button>
       <button class="opt-btn" onclick="selectOne(this,'mood','stressed')" data-val="stressed">
-        <span class="opt-icon">😤</span>متضايق
+        <span class="opt-icon">😤</span>مضغوط
       </button>
       <button class="opt-btn" onclick="selectOne(this,'mood','bored')" data-val="bored">
         <span class="opt-icon">😑</span>بايخ
@@ -775,7 +698,7 @@
         <span class="opt-icon">🥳</span>تجمع
       </button>
       <button class="opt-btn" onclick="selectOne(this,'mood','lazy')" data-val="lazy">
-        <span class="opt-icon">🛋️</span>كسلان
+        <span class="opt-icon">🛋️</span>مريح
       </button>
     </div>
     <div class="nav-btns">
@@ -809,10 +732,10 @@
         <span class="opt-icon">🌯</span>شاورما
       </button>
       <button class="opt-btn" onclick="toggleMulti(this,'cuisine','seafood')" data-val="seafood">
-        <span class="opt-icon">🦐</span>مأكولات بحرية
+        <span class="opt-icon">🦐</span>بحري
       </button>
       <button class="opt-btn" onclick="toggleMulti(this,'cuisine','dessert')" data-val="dessert">
-        <span class="opt-icon">🍰</span>حلويات
+        <span class="opt-icon">🍰</span>حلى
       </button>
       <button class="opt-btn" onclick="toggleMulti(this,'cuisine','healthy')" data-val="healthy">
         <span class="opt-icon">🥗</span>صحي
@@ -828,8 +751,8 @@
     <div class="step-header">
       <div class="step-num">٤</div>
       <div>
-        <div class="step-title">وش تتوقع حنقتك؟</div>
-        <div class="step-sub">اختر الطعم اللي تشتهيه</div>
+        <div class="step-title">وش الخيار اللي يرضيك؟</div>
+        <div class="step-sub">ركز هنا عشان نضبطك صح</div>
       </div>
     </div>
     <div class="tags-wrap" id="flavor-tags">
@@ -839,8 +762,8 @@
       <button class="tag-btn" onclick="toggleTag(this,'flavor','sour')">🍋 حامض</button>
       <button class="tag-btn" onclick="toggleTag(this,'flavor','creamy')">🧈 كريمي</button>
       <button class="tag-btn" onclick="toggleTag(this,'flavor','crispy')">🥨 مقرمش</button>
-      <button class="tag-btn" onclick="toggleTag(this,'flavor','light')">🫧 خفيف</button>
-      <button class="tag-btn" onclick="toggleTag(this,'flavor','heavy')">🥩 ثقيل</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','light')">🫧 خفيف ومريح</button>
+      <button class="tag-btn" onclick="toggleTag(this,'flavor','heavy')">🥩 دسم وثقيل</button>
     </div>
     <div class="nav-btns">
       <button class="back-btn" onclick="nextStep(3)">← رجوع</button>
@@ -878,22 +801,34 @@
 
   <div id="loading-screen">
     <span class="loading-bowl">🍽️</span>
-    <div class="loading-text">وجنة يفكر لك<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
-    <div class="loading-sub">بيحلل مزاجك وذوقك ويجيبلك أحسن اقتراح</div>
+    <div class="loading-text">وجنة يحلل خياراتك<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    <div class="loading-sub">ندور لك الوجبة اللي تليق بذوقك وصحتك</div>
   </div>
 
   <div id="result-section">
-    <div class="section-label">✨ اقتراح وجنة</div>
+    <div class="section-label">✨ وجنة يختار لك بكل حب:</div>
     <div class="result-hero-card">
       <div class="result-glow"></div>
       <span class="result-emoji" id="res-emoji">🍔</span>
       <div class="result-name" id="res-name">برغر كلاسيك</div>
-      <div class="result-desc" id="res-desc">بناءً على مزاجك وذوقك، هذي الوجبة هي الأنسب لك هالحين!</div>
-      <div class="result-tags-row" id="res-tags"></div>
-      <div class="match-score" id="res-score">✅ تطابق 94%</div>
+      <div class="calorie-badge">🔥 <span id="res-cal">450 - 600</span> سعرة حرارية تقريباً</div>
+      <div class="result-desc" id="res-desc">اخترنا لك هالوجبة لأنها ترضي ذوقك وتناسب ميزانيتك!</div>
+      
+      <div class="tip-box" id="res-tip-box">
+        <div class="tip-title">🌿 نصيحة وجنة عشان صحتك:</div>
+        <div class="tip-text" id="res-tip">خذ نفس عميق واستمتع بأكلك!</div>
+      </div>
+
+      <div class="result-tags-row" id="res-tags" style="margin-top: 24px;"></div>
+      <div class="match-score" id="res-score">✅ دقة الاختيار 94%</div>
     </div>
 
-    <div class="section-label" style="text-align:right; margin-bottom: 14px; margin-top: 28px;">خيارات بديلة</div>
+    <div class="restaurants-section">
+      <div class="rest-title">أشهر المطاعم اللي تضبطها لك 🛵:</div>
+      <div class="rest-list" id="res-restaurants"></div>
+    </div>
+
+    <div class="section-label" style="text-align:right; margin-bottom: 14px; margin-top: 36px;">خيارات بديلة لو حبيت تغير</div>
     <div class="alts-grid" id="alts-grid"></div>
 
     <div class="action-row" style="margin-top: 20px;">
@@ -906,94 +841,48 @@
 </section>
 
 <section id="features">
-  <div class="section-label">لماذا وجنة؟</div>
-  <div class="section-title">كل شي صُمّم عشانك</div>
+  <div class="section-label">ليش وجنة غير؟</div>
+  <div class="section-title">صممنا كل شي عشان راحتك</div>
   <div class="features-grid">
     <div class="feat-card">
       <div class="feat-icon">🧠</div>
-      <div class="feat-title">ذكي ومخصص</div>
-      <div class="feat-desc">يحلل مزاجك ومستوى جوعك وميزانيتك عشان يطلع أدق اقتراح</div>
+      <div class="feat-title">يهتم بصحتك ومزاجك</div>
+      <div class="feat-desc">نحلل ذوقك بدقة عشان نطلع لك الأكل اللي يرضيك بدون ما يثقل عليك.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🛵</div>
+      <div class="feat-title">خيارات مطاعم لا نهائية</div>
+      <div class="feat-desc">نقترح لك أشهر المطاعم الموثوقة اللي تضبط لك نفس الطلب.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔥</div>
+      <div class="feat-title">حاسبين سعراتك</div>
+      <div class="feat-desc">نعطيك متوسط السعرات للوجبة عشان تكون مرتاح ومطمن.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon">⚡</div>
-      <div class="feat-title">سريع جداً</div>
-      <div class="feat-desc">في أقل من 30 ثانية تعرف وش تاكل اليوم بدون تفكير</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🌍</div>
-      <div class="feat-title">مطابخ متنوعة</div>
-      <div class="feat-desc">من الأكل السعودي الأصيل لأشهى الوجبات العالمية</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🎯</div>
-      <div class="feat-title">بدائل ذكية</div>
-      <div class="feat-desc">مع كل اقتراح تجيك خيارات بديلة لو مو مقتنع</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">💰</div>
-      <div class="feat-title">يناسب ميزانيتك</div>
-      <div class="feat-desc">يراعي ميزانيتك ويقترح ما يناسبك بالضبط</div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">❤️</div>
-      <div class="feat-title">مجاني 100%</div>
-      <div class="feat-desc">لا إعلانات ولا اشتراكات — فقط اكتشف وجبتك</div>
-    </div>
-  </div>
-</section>
-
-<section id="science">
-  <div class="science-intro">
-    <div class="section-label" style="margin-bottom: 12px;">ورا الكواليس</div>
-    <h2 style="font-family: 'Tajawal', sans-serif; font-size: 2rem; color: var(--cream); margin-bottom: 16px;">شغلنا مبني على دراسات</h2>
-    ترا الخيارات اللي تطلع لك مو عشوائية، الخوارزمية حقتنا تحلل مستوى جوعك وحالتك المزاجية بناءً على دراسات سلوكية، وتربطها بخياراتك عشان نطلع لك الأكل اللي يضرب في المخ ويفك أزمتك.
-  </div>
-
-  <div class="algorithm-box">
-    <div class="algo-title">كيف نختار وجبتك؟</div>
-    <div class="algo-sub">الرحلة اللي تمر فيها خياراتك:</div>
-    <div class="algo-steps">
-      <div class="algo-step">
-        <div class="algo-dot">١</div>
-        <div class="algo-step-content">
-          <div class="algo-step-title">تحليل الجوع والمزاج</div>
-          <div class="algo-step-desc">نربط حالتك النفسية بمستوى هرمونات الجوع عشان نفهم وش الأكل اللي بيهديك.</div>
-        </div>
-      </div>
-      <div class="algo-step">
-        <div class="algo-dot">٢</div>
-        <div class="algo-step-content">
-          <div class="algo-step-title">فلترة الرغبات</div>
-          <div class="algo-step-desc">نستبعد المطابخ اللي ما تناسب ذوقك أو ميزانيتك.</div>
-        </div>
-      </div>
-      <div class="algo-step">
-        <div class="algo-dot">٣</div>
-        <div class="algo-step-content">
-          <div class="algo-step-title">الترشيح النهائي</div>
-          <div class="algo-step-desc">نطلع لك الوجبة اللي جابت أعلى نسبة تطابق مع وضعك الحالي.</div>
-        </div>
-      </div>
+      <div class="feat-title">سريع ومباشر</div>
+      <div class="feat-desc">خوارزمية ذكية تختار لك الوجبة في ثواني بدون وجع راس.</div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="logo-f">وجنة.</div>
-  <p>صُنع بـ ❤️ لكل من ما يدري وش ياكل</p>
+  <p>صُنع بـ ❤️ عشان نرتب جوك وأكلك</p>
 </footer>
 
 <div class="modal-overlay" id="hs-modal">
   <div class="modal-box">
     <div class="hs-logo-wrap">🛵</div>
-    <div class="modal-title">جاهز تطلب؟</div>
+    <div class="modal-title">جاهز تطلب وتدلع نفسك؟</div>
     <div class="modal-sub">بنحولك لهنقرستيشن عشان تطلب وجبتك وأنت مرتاح.</div>
 
     <div class="modal-meal-preview">
       <div class="modal-meal-emoji" id="modal-emoji">🍔</div>
       <div style="text-align: right;">
         <div class="modal-meal-name" id="modal-name">برغر كلاسيك</div>
-        <div class="modal-meal-hint">الوجبة اللي اخترناها لك!</div>
+        <div class="modal-meal-hint">الاختيار اللي بيضبط مزاجك!</div>
       </div>
     </div>
 
@@ -1016,6 +905,81 @@ const state = {
 };
 
 const hungerEmojis = { 1:'😌', 2:'🙂', 3:'😐', 4:'😋', 5:'🤤' };
+
+// ───── NEW: نصائح رعاية وصحة ─────
+const wellnessTips = [
+  "شرب كوب موية قبل الوجبة بـ 15 دقيقة يهيئ معدتك للهضم ويخليك تستفيد من كل سعرة حرارية! 💧",
+  "امضغ أكلك زين وبطء، التذوق الهادي يريح المعدة ويخليك تحس بالشبع بشكل صحي ومريح. 🌿",
+  "صحتك تهمنا! حاول تبعد عن الجوال وأنت تاكل، استمتع باللحظة وعيش تجربة الأكل بتركيز. 📵",
+  "لا تنسى تتمشى 10 دقايق خفيفة بعد الوجبة، هالشي بيفرق بنشاطك 180 درجة ويمنع الخمول! 🚶‍♂️",
+  "وجبتك هذي مليانة طاقة، تذكر دايماً إن التوازن هو سر الصحة، بالعافية على قلبك! 💚"
+];
+
+const restaurantsDB = {
+  saudi: ['الرومانسية', 'القرية النجدية', 'مندي ستيشن', 'السدة', 'كبسة وتيوس', 'الركن السعودي', 'بيت الشواية'],
+  burger: ['ماكدونالدز', 'برجر كنج', 'هرفي', 'شيك شاك', 'جان برجر', 'هامبرغيني', 'كودو', 'بليونير برجر'],
+  pizza: ['مايسترو بيتزا', 'دومينوز', 'بيتزا هت', 'بابا جونز', 'ليتل سيزرز', 'بلانكا بيتزا'],
+  asian: ['ووك تو ووك', 'كانتون', 'سوشي يوشي', 'نودلز فاكتوري', 'ياواتشا', 'بي إف تشانغز'],
+  shawarma: ['شاورمر', 'شاورما جليلة', 'بيت الشاورما', 'شاورما بلس', 'ذوق الشاورما'],
+  seafood: ['شرمب أناتومي', 'عمو حمزة', 'الروبيان الذهبي', 'اوشن باسكت', 'أسماك النافورة'],
+  dessert: ['دانكن', 'كريسبي كريم', 'سينابون', 'هاف مليون', 'مولتن شوكلت', 'ديب ان ديب'],
+  healthy: ['صب واي', 'بوقا', 'جرينش', 'سالدويتش', 'دايت سنتر', 'زيرو كارب']
+};
+
+function getRandomRestaurants(cuisineKey) {
+  const list = restaurantsDB[cuisineKey] || restaurantsDB['burger'];
+  const shuffled = [...list].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, 3);
+}
+
+// ───── NEW: قاعدة البيانات المسطحة (لزيادة الدقة بشكل خرافي) ─────
+const mealsDB = [
+  // --- سعودي ---
+  { name: 'مرق لحم دافئ', emoji: '🥣', desc: 'تستاهل وجبة خفيفة ومريحة للمعدة! المرق يعطيك طاقة ممتازة بدون ما تحس بالتخمة.', cuisine: 'saudi', flavors: ['savory', 'light'], budgets: ['low', 'mid'], cal: '300 - 450', tags: ['خفيف', 'مريح', 'دافي'] },
+  { name: 'مندي لحم فاخر', emoji: '🍖', desc: 'وجبة دسمة تملى العين والبطن. مصممة عشان تكافئك بنهاية يومك وتعطيك الرضا التام.', cuisine: 'saudi', flavors: ['savory', 'heavy'], budgets: ['mid', 'high', 'vip'], cal: '850 - 1200', tags: ['دسم', 'مشبع', 'مكافأة'] },
+  { name: 'مضغوط دجاج حراق', emoji: '🔥', desc: 'كسر للروتين بطعم حار يصحصح حواسك! وجبة ممتازة إذا كنت تدور على نكهة قوية وحاضرة.', cuisine: 'saudi', flavors: ['spicy', 'heavy', 'savory'], budgets: ['mid', 'high'], cal: '700 - 900', tags: ['حار', 'قوي', 'مشبع'] },
+  
+  // --- برغر ---
+  { name: 'سنجل تشيكن خفيف', emoji: '🍔', desc: 'خيار ممتاز وسريع يفك أزمتك بدون ما يثقل عليك. طعم كلاسيكي مريح ومناسب لأي وقت.', cuisine: 'burger', flavors: ['savory', 'light', 'crispy'], budgets: ['low', 'mid'], cal: '400 - 550', tags: ['خفيف', 'سريع', 'لذيذ'] },
+  { name: 'دبل تكساس برغر دسم', emoji: '🍔', desc: 'هذا البرغر هو التدخل السريع للناس اللي تبي وجبة غنية ودسمة ترفع مستوى السعادة فوراً!', cuisine: 'burger', flavors: ['savory', 'heavy', 'creamy'], budgets: ['mid', 'high', 'vip'], cal: '800 - 1100', tags: ['دسم', 'غني', 'متعة'] },
+  { name: 'برغر هالبينو سبايسي', emoji: '🌶️', desc: 'لعشاق اللسعة! برغر مصمم يعطيك الحرارة اللي تعدل مزاجك وتكسر الملل.', cuisine: 'burger', flavors: ['spicy', 'savory'], budgets: ['low', 'mid', 'high'], cal: '600 - 850', tags: ['حار', 'لذيذ', 'قوي'] },
+
+  // --- بيتزا ---
+  { name: 'بيتزا مارغريتا رقيقة', emoji: '🍕', desc: 'بسيطة، لذيذة، ومريحة! خيار مثالي إذا تبي تستمتع بوجبتك بدون إحساس بالثقل.', cuisine: 'pizza', flavors: ['savory', 'light'], budgets: ['low', 'mid'], cal: '600 - 800', tags: ['خفيف', 'كلاسيك', 'مريح'] },
+  { name: 'بيتزا ميت لافرز غنية', emoji: '🍕', desc: 'بيتزا مليانة لحوم وأجبان لتعطيك أقصى درجات الرضا والمكافأة.', cuisine: 'pizza', flavors: ['savory', 'heavy', 'creamy'], budgets: ['mid', 'high', 'vip'], cal: '900 - 1200', tags: ['دسم', 'غني', 'مشاركة'] },
+
+  // --- آسيوي ---
+  { name: 'سوشي مشكل خفيف', emoji: '🍱', desc: 'متعة بصرية وطعم خفيف على المعدة! السوشي خيار أنيق وصحي يروق أعصابك.', cuisine: 'asian', flavors: ['savory', 'light', 'sour'], budgets: ['mid', 'high', 'vip'], cal: '350 - 500', tags: ['صحي', 'أنيق', 'خفيف'] },
+  { name: 'دايناميت شرمب حار', emoji: '🍤', desc: 'صوص كريمي مع حرارة لذيذة وقرمشة ما تنوصف. خيار يكسر روتينك بامتياز!', cuisine: 'asian', flavors: ['spicy', 'creamy', 'crispy', 'heavy'], budgets: ['mid', 'high'], cal: '600 - 800', tags: ['مقرمش', 'كريمي', 'حار'] },
+
+  // --- شاورما ---
+  { name: 'صاروخ شاورما دجاج', emoji: '🌯', desc: 'الخيار العملي والسريع! طعم تحبه ومريح للمعدة وما ياخذ من وقتك شي.', cuisine: 'shawarma', flavors: ['savory', 'light', 'crispy'], budgets: ['low', 'mid'], cal: '450 - 600', tags: ['سريع', 'عملي', 'كلاسيك'] },
+  { name: 'شاورما عربي دبل دسم', emoji: '🥙', desc: 'وجبة متكاملة مليانة نكهات وصوصات. مكافأة سريعة ودسمة ترضي جوعك التمام.', cuisine: 'shawarma', flavors: ['savory', 'heavy', 'creamy'], budgets: ['mid', 'high'], cal: '800 - 1000', tags: ['دسم', 'مشبع', 'غني'] },
+
+  // --- بحري ---
+  { name: 'فيليه سمك مشوي خفيف', emoji: '🐟', desc: 'وجبة صحية، خفيفة، ومليانة أوميغا 3. ممتازة جداً لتجديد نشاطك بدون كسل.', cuisine: 'seafood', flavors: ['savory', 'light', 'sour'], budgets: ['mid', 'high', 'vip'], cal: '300 - 450', tags: ['صحي', 'خفيف', 'مفيد'] },
+  { name: 'ميكس مقالي بحرية', emoji: '🦐', desc: 'قرمشة بحرية دسمة مع صوصات غنية، وجبة تجبر خاطرك وتعدل مزاجك.', cuisine: 'seafood', flavors: ['crispy', 'heavy', 'savory'], budgets: ['high', 'vip'], cal: '750 - 1000', tags: ['مقرمش', 'دسم', 'فاخر'] },
+
+  // --- حلى ---
+  { name: 'سلطة فواكه منعشة', emoji: '🍓', desc: 'سكر طبيعي وانتعاش فوري! خيار صحي وخفيف يرفع طاقتك ويحلي يومك.', cuisine: 'dessert', flavors: ['sweet', 'light', 'sour'], budgets: ['low', 'mid'], cal: '150 - 250', tags: ['انتعاش', 'خفيف', 'صحي'] },
+  { name: 'مولتن شوكلت غني', emoji: '🍫', desc: 'جرعة سعادة مكثفة! الشوكولاتة الغنية راح تكافئك وتطبطب على مزاجك بشكل فوري.', cuisine: 'dessert', flavors: ['sweet', 'heavy', 'creamy'], budgets: ['mid', 'high'], cal: '500 - 800', tags: ['دسم', 'سعادة', 'غني'] },
+
+  // --- صحي ---
+  { name: 'سلطة دجاج وحلوم', emoji: '🥗', desc: 'وجبة متوازنة وخفيفة جداً، تعطيك الفيتامينات والبروتين اللي تحتاجه بدون أي ثقل.', cuisine: 'healthy', flavors: ['savory', 'light', 'sour'], budgets: ['low', 'mid'], cal: '250 - 400', tags: ['صحي', 'خفيف', 'نشاط'] },
+  { name: 'ستيك لحم بقر صحي', emoji: '🥩', desc: 'بروتين صافي يبني جسمك ويشبعك بقوة. وجبة صحية بس بمستوى دسامة يرضي جوعك.', cuisine: 'healthy', flavors: ['savory', 'heavy'], budgets: ['high', 'vip'], cal: '500 - 700', tags: ['بروتين', 'قوي', 'صحي'] }
+];
+
+const altFoods = [
+  { n:'مكرونة بولونيز', e:'🍝', s:'إيطالي كلاسيك' },
+  { n:'تاكوز دجاج', e:'🌮', s:'مكسيكي مرح' },
+  { n:'سوشي سبيشيال', e:'🍱', s:'ياباني أنيق' },
+  { n:'ستيك ريب آي', e:'🥩', s:'غربي فاخر' },
+  { n:'فلافل بيتا', e:'🥙', s:'شرقي خفيف' },
+  { n:'وافل بنوتيلا', e:'🧇', s:'حلو ومغري' },
+  { n:'لحم بعجين', e:'🫓', s:'شامي أصيل' },
+  { n:'سمبوسة مقلية', e:'🥟', s:'شهية وسريعة' },
+  { n:'كريب نوتيلا', e:'🥐', s:'فرنسي دافئ' }
+];
 
 function updateHunger(v) {
   state.hunger = parseInt(v);
@@ -1052,14 +1016,12 @@ function toggleTag(btn, key, val) {
   if (nxt) nxt.disabled = state[key].length === 0;
 }
 
-// ───── STEPS ─────
 let currentStep = 0;
 const totalSteps = 5;
 
 function startApp() {
   document.getElementById('hero').style.display = 'none';
   document.getElementById('features').style.display = 'none';
-  document.getElementById('science').style.display = 'none';
   document.getElementById('progress-wrap').style.display = 'block';
   nextStep(1);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1081,110 +1043,77 @@ function updateProgress(step) {
   document.getElementById('progress-bar').style.width = pct + '%';
 }
 
-// ───── LOADING ─────
 function showLoading() {
   document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
   document.getElementById('loading-screen').style.display = 'block';
   document.getElementById('progress-bar').style.width = '100%';
-  setTimeout(showResult, 2200);
+  setTimeout(showResult, 2500);
 }
-
-// ───── FOOD DATABASE ─────
-const foodDB = {
-  // [mood][cuisine] → meal
-  happy: {
-    saudi:   { n:'كبسة دجاج ملكية', e:'🍗', d:'أشهى كبسة بتوابل فاخرة وأرز بسمتي ذهبي', tags:['تقليدي','دافئ','عائلي'], score:96 },
-    burger:  { n:'سمبل برغر دبل', e:'🍔', d:'برغر لحم بقري طازج مع صوص خاص وجبن مذاب', tags:['مشبع','مرضي','سريع'], score:93 },
-    pizza:   { n:'بيتزا مارغريتا', e:'🍕', d:'بيتزا إيطالية أصيلة بصوص طماطم وموزاريلا طازجة', tags:['إيطالي','خفيف','شهي'], score:91 },
-    asian:   { n:'باد تاي كريمب', e:'🍜', d:'نودلز تايلاندية بجمبري وصوص تاماريند لذيذ', tags:['آسيوي','حار','خاص'], score:89 },
-    shawarma:{ n:'شاورما لحم مع سالسا', e:'🌯', d:'شاورما لحم طازجة مع صوص السالسا والخضروات', tags:['سريع','شعبي','مشبع'], score:92 },
-    seafood: { n:'سمك هامور مشوي', e:'🐟', d:'هامور طازج على الفحم مع أرز صياد', tags:['بحري','فاخر','صحي'], score:95 },
-    dessert: { n:'كنافة بالقشطة', e:'🧆', d:'كنافة هشة بقشطة ناعمة وقطر عثماني', tags:['حلو','شرقي','مميز'], score:90 },
-    healthy: { n:'بوكي بول تونا', e:'🥗', d:'وعاء صحي بالتونا والأفوكادو والخضروات الطازجة', tags:['صحي','خفيف','منعش'], score:88 }
-  },
-  tired: {
-    saudi:   { n:'مرق دجاج دافئ', e:'🥣', d:'شوربة مرق دجاج ساخنة بالتوابل لترتاح', tags:['دافئ','مريح','سهل'], score:97 },
-    burger:  { n:'تشيز برغر بسيط', e:'🍔', d:'برغر كلاسيك بسيط يسد الجوع بسرعة', tags:['بسيط','سريع','مريح'], score:88 },
-    pizza:   { n:'بيتزا جبن بيبروني', e:'🍕', d:'بيتزا دافئة مريحة مع بيبروني وجبن وفير', tags:['دافئ','مريح','كلاسيك'], score:90 },
-    asian:   { n:'رامن دجاج دافئ', e:'🍜', d:'رامن ياباني بمرق دجاج دافئ ومريح للروح', tags:['دافئ','آسيوي','مريح'], score:94 },
-    shawarma:{ n:'شاورما دجاج ساندويش', e:'🌯', d:'ساندويش شاورما دجاج سهل وسريع', tags:['سريع','بسيط'], score:85 },
-    seafood: { n:'فيليه سمك مقلي', e:'🐠', d:'فيليه سمك خفيف مقلي مع صوص ليمون', tags:['خفيف','سريع','سهل'], score:86 },
-    dessert: { n:'تشيز كيك كريمي', e:'🎂', d:'تشيز كيك ناعم وكريمي يريح التعب', tags:['حلو','كريمي','مريح'], score:91 },
-    healthy: { n:'شوربة عدس', e:'🥣', d:'شوربة عدس دافئة بالليمون والكمون', tags:['دافئ','صحي','مريح'], score:93 }
-  },
-  stressed: {
-    saudi:   { n:'ذيل ووجنات مشوية', e:'🥩', d:'أطيب لحم مشوي يزيل التوتر', tags:['قوي','مشوي','مشبع'], score:92 },
-    burger:  { n:'سمبل داكن برغر', e:'🍔', d:'برغر ضخم مزدوج يطرد الضغط', tags:['ضخم','قوي','مشبع'], score:95 },
-    pizza:   { n:'بيتزا ميت لافر', e:'🍕', d:'بيتزا باللحم الوفير تصرف الضغط', tags:['قوي','وفير','مشبع'], score:93 },
-    asian:   { n:'دامبلينج مقلي', e:'🥟', d:'زلابية مقلية مقرمشة ومريحة', tags:['مقرمش','آسيوي','مميز'], score:89 },
-    shawarma:{ n:'شاورما لحم سبيشيال', e:'🌯', d:'شاورما لحم حارة تصرف الضغط', tags:['حار','قوي'], score:91 },
-    seafood: { n:'روبيان حار مشوي', e:'🦐', d:'روبيان طازج مشوي بتوابل حارة', tags:['بحري','حار','مميز'], score:88 },
-    dessert: { n:'شوكولاتة لافا كيك', e:'🍫', d:'كيك شوكولاتة دافئ بداخله لافا سائلة', tags:['حلو','دافئ','مريح'], score:94 },
-    healthy: { n:'سموثي بول أخضر', e:'🥤', d:'بول سموثي أخضر منعش ومزيل للتوتر', tags:['صحي','منعش','خفيف'], score:87 }
-  },
-  bored: {
-    saudi:   { n:'جريش ومندي مشكل', e:'🫕', d:'جريش أصيل مع مندي مشكل — تجربة جديدة', tags:['جديد','تقليدي','مميز'], score:90 },
-    burger:  { n:'برغر كوريوز', e:'🍔', d:'برغر بمكونات غير متوقعة وطعم جديد', tags:['جديد','مفاجأة','مميز'], score:92 },
-    pizza:   { n:'بيتزا ترفل فاخرة', e:'🍕', d:'بيتزا بكريمة الترفل وتجربة مختلفة كلياً', tags:['فاخر','جديد','مميز'], score:94 },
-    asian:   { n:'بيبيمباب كوري', e:'🍱', d:'طبق كوري ملون بخضروات متنوعة وبيض', tags:['ملون','جديد','آسيوي'], score:91 },
-    shawarma:{ n:'شاورما فيوجن', e:'🌯', d:'شاورما بتوليفة تجمع مطابخ مختلفة', tags:['جديد','فيوجن','مميز'], score:89 },
-    seafood: { n:'أكتوبص مشوي', e:'🐙', d:'أكتوبص مشوي ستايل يوناني — تجربة لا تُنسى', tags:['نادر','فاخر','مميز'], score:93 },
-    dessert: { n:'مافن متفجر مليان', e:'🧁', d:'مافن ضخم محشو بعدة نكهات مفاجئة', tags:['مفاجأة','حلو','مميز'], score:95 },
-    healthy: { n:'بول أكاي استوائي', e:'🫐', d:'أكاي بول ملون بفواكه استوائية نادرة', tags:['ملون','صحي','جديد'], score:88 }
-  },
-  social: {
-    saudi:   { n:'كبسة جماعية فخمة', e:'🍗', d:'كبسة للجماعة بخروف كامل — ولا أروع', tags:['جماعي','فخم','تقليدي'], score:98 },
-    burger:  { n:'سلة برغرات مشتركة', e:'🍔', d:'تشارك مجموعة برغرات متنوعة ومختلفة', tags:['جماعي','متنوع','مرح'], score:93 },
-    pizza:   { n:'بيتزا فاميلي XXL', e:'🍕', d:'بيتزا عملاقة للجماعة بنكهات متعددة', tags:['جماعي','كبير','مرح'], score:95 },
-    asian:   { n:'هوت بوت آسيوي', e:'🍲', d:'قدر مشترك يطبخ الجميع فيه سوياً', tags:['تجربة','جماعي','آسيوي'], score:96 },
-    shawarma:{ n:'شاورما ميكس للجميع', e:'🌯', d:'صاج شاورما كامل للتوزيع بين الجماعة', tags:['جماعي','وفير','سريع'], score:91 },
-    seafood: { n:'مائدة بحرية كاملة', e:'🦞', d:'أسماك وروبيان وجمبري — مائدة احتفالية', tags:['فاخر','جماعي','احتفال'], score:97 },
-    dessert: { n:'فوندو شوكولاتة', e:'🍫', d:'فوندو شوكولاتة تغمس فيه الفواكه سوياً', tags:['مشترك','حلو','مرح'], score:92 },
-    healthy: { n:'بوكي بار مشترك', e:'🥗', d:'محطة بوكي يبني كل واحد وجبته بنفسه', tags:['صحي','إبداعي','جماعي'], score:89 }
-  },
-  lazy: {
-    saudi:   { n:'ورق عنب جاهز', e:'🍃', d:'ورق عنب جاهز من المطعم — بدون مجهود', tags:['سهل','جاهز','بيتي'], score:87 },
-    burger:  { n:'برغر ديليفري سريع', e:'🍔', d:'أسرع برغر ديليفري يوصلك بدون قيام', tags:['سريع','ديليفري','سهل'], score:94 },
-    pizza:   { n:'بيتزا كلاسيك ديليفري', e:'🍕', d:'ببساطة تطلب بيتزا وتنتظر — الحل الأمثل', tags:['ديليفري','سهل','كلاسيك'], score:93 },
-    asian:   { n:'نودلز فورية فاخرة', e:'🍜', d:'نودلز تجهزها في 5 دقائق بلمسة فاخرة', tags:['سريع','سهل','بيتي'], score:85 },
-    shawarma:{ n:'شاورما ديليفري', e:'🌯', d:'تطلب ويجيك — أسهل خيار ممكن', tags:['ديليفري','سريع','سهل'], score:92 },
-    seafood: { n:'سمك مقلي جاهز', e:'🐟', d:'سمك جاهز من مطعم قريب', tags:['سهل','بسيط','سريع'], score:84 },
-    dessert: { n:'آيس كريم من الفريزر', e:'🍦', d:'افتح الفريزر واستمتع — الحل الكسلان الأفضل', tags:['سهل','بارد','بسيط'], score:88 },
-    healthy: { n:'سلطة معلبة جاهزة', e:'🥗', d:'افتح علبة سلطة جاهزة واكل — بدون مجهود', tags:['سهل','صحي','سريع'], score:82 }
-  }
-};
-
-const altFoods = [
-  { n:'مكرونة بولونيز', e:'🍝', s:'إيطالي كلاسيك' },
-  { n:'تاكوز دجاج', e:'🌮', s:'مكسيكي مرح' },
-  { n:'سوشي سبيشيال', e:'🍱', s:'ياباني أنيق' },
-  { n:'ستيك ريب آي', e:'🥩', s:'غربي فاخر' },
-  { n:'فلافل بيتا', e:'🥙', s:'شرقي خفيف' },
-  { n:'وافل بنوتيلا', e:'🧇', s:'حلو ومغري' },
-  { n:'لحم بعجين', e:'🫓', s:'شامي أصيل' },
-  { n:'سمبوسة مقلية', e:'🥟', s:'شهية وسريعة' },
-  { n:'كريب نوتيلا', e:'🥐', s:'فرنسي دافئ' }
-];
 
 function showResult() {
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('result-section').style.display = 'block';
 
-  const mood = state.mood || 'happy';
-  const cuisines = state.cuisine.length > 0 ? state.cuisine : ['burger'];
-  const cuisine = cuisines[Math.floor(Math.random() * cuisines.length)];
+  // ───── NEW ALGORITHM ─────
+  let matchedMeals = [];
+  
+  // 1. فلترة بالمطبخ
+  if (state.cuisine.length > 0) {
+    matchedMeals = mealsDB.filter(m => state.cuisine.includes(m.cuisine));
+  } else {
+    matchedMeals = [...mealsDB]; // لو ما اختار مطبخ نجيب الكل
+  }
 
-  const meal = (foodDB[mood] && foodDB[mood][cuisine]) || foodDB.happy.burger;
+  // 2. نظام النقاط للبحث عن أدق وجبة
+  matchedMeals.forEach(m => {
+    let score = 0;
+    
+    // الميزانية (+3 نقاط إذا طابقت)
+    if (m.budgets.includes(state.budget)) score += 3;
+    
+    // النكهات/الخيارات (ثقيل، خفيف، حار..)
+    state.flavor.forEach(f => {
+      if (m.flavors.includes(f)) score += 2;
+    });
 
-  document.getElementById('res-emoji').textContent = meal.e;
-  document.getElementById('res-name').textContent = meal.n;
-  document.getElementById('res-desc').textContent = meal.d;
-  document.getElementById('res-score').textContent = `✅ تطابق ${meal.score}%`;
+    // عقاب للخوارزمية: إذا العميل يبي خفيف والوجبة دسمة، نخصم نقاط عشان ما تطلع له!
+    if (state.flavor.includes('light') && m.flavors.includes('heavy')) score -= 5;
+    if (state.flavor.includes('heavy') && m.flavors.includes('light')) score -= 5;
 
+    m.currentScore = score;
+  });
+
+  // 3. ترتيب الوجبات من الأعلى للأقل دقة
+  matchedMeals.sort((a, b) => b.currentScore - a.currentScore);
+  
+  // اختيار أفضل وجبة (وإذا مافي، نختار أول وجبة افتراضية)
+  const bestMeal = matchedMeals[0] || mealsDB[0];
+
+  // حساب دقة الاختيار بشكل واقعي
+  let matchPct = 80 + Math.floor(Math.random() * 9); // من 80 إلى 89
+  if (bestMeal.currentScore >= 4) matchPct = 90 + Math.floor(Math.random() * 9); // من 90 إلى 98
+
+  // عرض البيانات
+  document.getElementById('res-emoji').textContent = bestMeal.emoji;
+  document.getElementById('res-name').textContent = bestMeal.name;
+  document.getElementById('res-desc').textContent = bestMeal.desc;
+  document.getElementById('res-score').textContent = `✅ دقة الاختيار ${matchPct}%`;
+  document.getElementById('res-cal').textContent = bestMeal.cal;
+
+  // نصيحة وجنة الصحية العشوائية
+  const randomTip = wellnessTips[Math.floor(Math.random() * wellnessTips.length)];
+  document.getElementById('res-tip').textContent = randomTip;
+
+  // المطاعم
+  const recommendedRests = getRandomRestaurants(bestMeal.cuisine);
+  const restsHTML = recommendedRests.map(r => `<div class="rest-item">${r}</div>`).join('');
+  document.getElementById('res-restaurants').innerHTML = restsHTML;
+
+  // التاجات
   const tagsEl = document.getElementById('res-tags');
-  tagsEl.innerHTML = meal.tags.map(t => `<span class="result-tag">${t}</span>`).join('');
+  tagsEl.innerHTML = bestMeal.tags.map(t => `<span class="result-tag">${t}</span>`).join('');
 
-  // Shuffle alts
+  // بدائل
   const shuffled = [...altFoods].sort(() => Math.random() - .5).slice(0,3);
   document.getElementById('alts-grid').innerHTML = shuffled.map(a => `
     <div class="alt-card" onclick="selectAlt('${a.n}','${a.e}','${a.s}')">
@@ -1200,8 +1129,10 @@ function showResult() {
 function selectAlt(n, e, s) {
   document.getElementById('res-name').textContent = n;
   document.getElementById('res-emoji').textContent = e;
-  document.getElementById('res-desc').textContent = `اخترت ${n} — خيار ممتاز! 🎉`;
+  document.getElementById('res-desc').textContent = `تغيير ممتاز! تستاهل كل الخير، وعوافي مقدماً 🎉`;
   document.getElementById('res-score').textContent = `✅ اختيار يدوي ذكي`;
+  document.getElementById('res-cal').textContent = 'السعرات تختلف حسب المطعم';
+  document.getElementById('res-restaurants').innerHTML = '<div class="rest-item">جاري البحث في التطبيق...</div>';
 }
 
 function restartApp() {
@@ -1223,16 +1154,13 @@ function orderNow() {
   const name = document.getElementById('res-name').textContent;
   const emoji = document.getElementById('res-emoji').textContent;
 
-  // تحديث بيانات النافذة المنبثقة
   document.getElementById('modal-name').textContent = name;
   document.getElementById('modal-emoji').textContent = emoji;
 
-  // تجهيز رابط البحث الخاص بهنقرستيشن
   const searchQuery = encodeURIComponent(name);
   const hsUrl = `https://hungerstation.com/sa-ar/search?q=${searchQuery}`;
   document.getElementById('hs-link').href = hsUrl;
 
-  // إظهار النافذة
   document.getElementById('hs-modal').classList.add('open');
 }
 
@@ -1243,12 +1171,12 @@ function closeModal() {
 function shareResult() {
   const name = document.getElementById('res-name').textContent;
   const score = document.getElementById('res-score').textContent;
-  const text = `🍽️ وجنة اختار لي: ${name}\n${score}\n\nاكتشف وجبتك على وجنة! ✨`;
+  const text = `🍽️ وجنة اختار لي: ${name}\n${score}\n\nاكتشف وجبتك على وجنة، أكل صح وراحتك أهم! ✨`;
   if (navigator.share) {
     navigator.share({ title: 'وجنة', text });
   } else if (navigator.clipboard) {
     navigator.clipboard.writeText(text);
-    alert('✅ تم نسخ النتيجة — شاركها مع أصدقائك!');
+    alert('✅ تم نسخ النتيجة — شاركها مع أصحابك وخلهم يجربون!');
   }
 }
 </script>
